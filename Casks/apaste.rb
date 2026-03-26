@@ -4,7 +4,7 @@ cask "apaste" do
 
   url "https://github.com/AlliotTech/aPaste/releases/download/v#{version}/aPaste-v#{version}.dmg"
   name "aPaste"
-  desc "Paste manager for macOS. SwiftUI native"
+  desc "SwiftUI-native paste manager"
   homepage "https://github.com/AlliotTech/aPaste"
 
   app "aPaste.app"
