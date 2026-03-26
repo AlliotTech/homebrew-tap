@@ -1,6 +1,6 @@
 cask "apaste" do
-  version "0.0.1"
-  sha256 "df78a9bc272969d20851055d2835be729e8e12beec05f3a41138d4ac534fae88"
+  version "0.0.2"
+  sha256 "c034573ecb9fe5dc0591323f8fcb982a9fcaab6bc0c6d9ec21d01991bdef0838"
 
   url "https://github.com/AlliotTech/aPaste/releases/download/v#{version}/aPaste-v#{version}.dmg"
   name "aPaste"
