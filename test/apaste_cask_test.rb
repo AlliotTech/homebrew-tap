@@ -1,8 +1,7 @@
 # typed: false
 # frozen_string_literal: true
 
-cask_path = File.expand_path("../Casks/apaste.rb", __dir__)
-cask = Cask::CaskLoader.load(cask_path)
+cask = Cask::CaskLoader.load("alliottech/tap/apaste")
 
 expected_url = "https://github.com/AlliotTech/aPaste/releases/download/v#{cask.version}/aPaste-v#{cask.version}.dmg"
 actual_url = cask.url&.to_s
