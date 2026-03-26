@@ -1,13 +1,20 @@
 # typed: false
 # frozen_string_literal: true
 
-cask = Cask::CaskLoader.load("alliottech/tap/apaste")
+source = File.read(File.expand_path("../Casks/apaste.rb", __dir__))
 
-expected_url = "https://github.com/AlliotTech/aPaste/releases/download/v#{cask.version}/aPaste-v#{cask.version}.dmg"
-actual_url = cask.url&.to_s
+unless source.match?(/arch\s+arm:\s*"arm64",\s*intel:\s*"x86_64"/)
+  raise 'expected arch mapping `arm: "arm64", intel: "x86_64"` in cask source'
+end
 
-raise "expected url #{expected_url.inspect}, got #{actual_url.inspect}" if actual_url != expected_url
+unless source.match?(%r{url\s+"https://github\.com/AlliotTech/aPaste/releases/download/v#\{version\}/aPaste-v#\{version\}-#\{arch\}\.dmg"})
+  raise 'expected arch-specific release URL in cask source'
+end
 
-sha256 = cask.sha256&.to_s
+unless source.match?(/sha256\s+arm:\s+"[a-f0-9]{64}",\s*\n\s*intel:\s+"[a-f0-9]+"/)
+  raise "expected per-architecture sha256 values in cask source"
+end
 
-raise "expected a 64-character sha256, got #{sha256.inspect}" unless sha256&.match?(/\A[a-f0-9]{64}\z/)
+unless source.match?(/app\s+"aPaste\.app"/)
+  raise 'expected aPaste.app artifact in cask source'
+end
