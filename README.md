@@ -1,16 +1,16 @@
 # AlliotTech Tap
 
-## How do I install these formulae?
+## How do I install this cask?
 
-`brew install alliottech/tap/<formula>`
+`brew install --cask alliottech/tap/apaste`
 
-Or `brew tap alliottech/tap` and then `brew install <formula>`.
+Or `brew tap alliottech/tap` and then `brew install --cask apaste`.
 
 Or, in a `brew bundle` `Brewfile`:
 
 ```ruby
 tap "alliottech/tap"
-brew "<formula>"
+cask "apaste"
 ```
 
 ## Documentation
