@@ -1,0 +1,13 @@
+{
+  "tag_name": "v0.0.6",
+  "assets": [
+    {
+      "name": "aPaste-v0.0.6-arm64.dmg",
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "name": "aPaste-v0.0.6-x86_64.dmg",
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ]
+}
