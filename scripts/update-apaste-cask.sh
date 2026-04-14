@@ -8,8 +8,10 @@ API_VERSION="${GITHUB_API_VERSION:-2026-03-10}"
 RELEASE_API_URL="${GITHUB_RELEASE_API_URL:-https://api.github.com/repos/${OWNER}/${REPO}/releases/latest}"
 CASK_PATH="${CASK_PATH:-Casks/apaste.rb}"
 
-for command in curl ruby; do
-  if ! command -v "${command}" >/dev/null 2>&1; then
+for command in curl ruby
+do
+  if ! command -v "${command}" >/dev/null 2>&1
+  then
     echo "missing required command: ${command}" >&2
     exit 1
   fi
