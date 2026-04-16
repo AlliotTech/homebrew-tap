@@ -1,0 +1,51 @@
+name: update apaste cask
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - apaste_release_published
+
+concurrency:
+  group: update-apaste-cask
+  cancel-in-progress: true
+
+jobs:
+  update-cask:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
+      - name: Update cask from latest release
+        run: ./scripts/update-apaste-cask.sh
+
+      - name: Verify cask update script
+        run: ruby test/apaste_cask_test.rb
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet -- Casks/apaste.rb; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up git identity
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit cask update
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git add Casks/apaste.rb
+          git commit -m "Update aPaste cask"
+
+      - name: Push cask update
+        if: steps.changes.outputs.changed == 'true'
+        run: git push
