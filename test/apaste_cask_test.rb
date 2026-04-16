@@ -51,3 +51,38 @@ Dir.mktmpdir("apaste-cask-test") do |dir|
     raise "expected script to update sha256 values from asset digests"
   end
 end
+
+Dir.mktmpdir("apaste-cask-duplicate-test") do |dir|
+  fixture_path = File.join(root, "test/fixtures/latest_release.json")
+  cask_copy_path = File.join(dir, "apaste.rb")
+
+  File.write(cask_copy_path, <<~RUBY)
+    cask "apaste" do
+      arch arm: "arm64", intel: "x86_64"
+
+      version "0.0.9"
+      sha256 arm:   "#{"d" * 64}",
+             intel: "#{"e" * 64}"
+      version "0.1.0"
+      sha256 arm:   "#{"f" * 64}",
+             intel: "#{"1" * 64}"
+
+      url "https://github.com/AlliotTech/aPaste/releases/download/v\#{version}/aPaste-v\#{version}-\#{arch}.dmg"
+      name "aPaste"
+    end
+  RUBY
+
+  env = {
+    "CASK_PATH"              => cask_copy_path,
+    "GITHUB_RELEASE_API_URL" => "file://#{fixture_path}",
+  }
+
+  success = system(env, script_path, chdir: root)
+  raise "expected update script to clean duplicate version blocks" unless success
+
+  updated_source = File.read(cask_copy_path)
+
+  raise "expected exactly one version declaration after update" unless updated_source.scan(/version\s+"/).length == 1
+  raise "expected exactly one sha256 declaration after update" unless updated_source.scan(/sha256\s+arm:/).length == 1
+  raise "expected duplicate cleanup to keep latest release version" unless updated_source.match?(/version\s+"0\.0\.6"/)
+end

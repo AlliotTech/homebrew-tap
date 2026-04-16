@@ -65,17 +65,27 @@ path, version, arm_sha, intel_sha = ARGV
 
 source = File.read(path)
 
-unless source.sub!(/version\s+"[^"]+"/, %(version "#{version}"))
-  abort("failed to update version in #{path}")
+version_sha_block = [
+  %(  version "#{version}"),
+  %(  sha256 arm:   "#{arm_sha}",),
+  %(         intel: "#{intel_sha}"),
+].join("\n")
+
+pattern = /
+  ^\s*version\s+"[^"]+"\s*\n
+  \s*sha256\s+arm:\s+"[a-f0-9]{64}",\s*\n
+  \s*intel:\s+"[a-f0-9]{64}"
+/x
+
+match_count = 0
+
+source.gsub!(pattern) do
+  match_count += 1
+  match_count == 1 ? version_sha_block : ""
 end
 
-sha_block = <<~SHA.chomp
-  sha256 arm:   "#{arm_sha}",
-         intel: "#{intel_sha}"
-SHA
-
-unless source.sub!(/sha256\s+arm:\s+"[a-f0-9]{64}",\s*\n\s*intel:\s+"[a-f0-9]{64}"/, sha_block)
-  abort("failed to update sha256 block in #{path}")
+if match_count.zero?
+  abort("failed to update version and sha256 block in #{path}")
 end
 
 File.write(path, source)
