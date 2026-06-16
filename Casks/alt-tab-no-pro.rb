@@ -9,7 +9,7 @@ cask "alt-tab-no-pro" do
   homepage "https://github.com/AlliotTech/alt-tab-macos"
 
   conflicts_with cask: "alt-tab"
-  depends_on macos: :high_sierra
+  depends_on :macos
 
   app "AltTab.app"
 
