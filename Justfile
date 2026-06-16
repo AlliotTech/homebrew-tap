@@ -8,3 +8,4 @@ update-apaste:
 
 test:
     ruby test/apaste_cask_test.rb
+    ruby test/alt_tab_no_pro_cask_test.rb

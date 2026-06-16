@@ -41,3 +41,4 @@ jobs:
 
       - run: brew test-bot --only-tap-syntax
       - run: HOMEBREW_NO_AUTO_UPDATE=1 brew ruby test/apaste_cask_test.rb
+      - run: HOMEBREW_NO_AUTO_UPDATE=1 brew ruby test/alt_tab_no_pro_cask_test.rb
