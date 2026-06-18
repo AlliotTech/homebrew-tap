@@ -1,8 +1,8 @@
 cask "apaste" do
   arch arm: "arm64", intel: "x86_64"
-  version "0.4.0"
-  sha256 arm:   "be68fc4bf95b386e720aef0dd69c0b7c51fe2f0f8db0c421103a9ff807dbdbc0",
-         intel: "389e0382c9d0f6ca252a061a2ac8b7df7b00da6292db1102eb17b3fb2908de45"
+  version "0.5.0"
+  sha256 arm:   "4a32baaf4e2201fb24d101beed54bb211e8f41c84313a65d88cf223c06a29aff",
+         intel: "9dcede0a9976a60f874c9057b2eaf33cc8123197fb55721c6614c0ae44b58b27"
 
   url "https://github.com/AlliotTech/aPaste/releases/download/v#{version}/aPaste-v#{version}-#{arch}.dmg"
   name "aPaste"
