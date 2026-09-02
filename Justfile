@@ -3,6 +3,9 @@ set shell := ["sh", "-eu", "-c"]
 default:
     just --list
 
+update-alt-tab:
+    ./scripts/update-alt-tab-cask.sh
+
 update-apaste:
     ./scripts/update-apaste-cask.sh
 

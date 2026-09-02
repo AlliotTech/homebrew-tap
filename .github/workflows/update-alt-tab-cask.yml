@@ -1,0 +1,53 @@
+name: update alt-tab cask
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - alt_tab_release_published
+  schedule:
+    - cron: "0 */6 * * *" # fallback if the dispatch was missed
+
+concurrency:
+  group: update-alt-tab-cask
+  cancel-in-progress: true
+
+jobs:
+  update-cask:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v4
+
+      - name: Update cask from latest release
+        run: ./scripts/update-alt-tab-cask.sh
+
+      - name: Verify cask update script
+        run: ruby test/alt_tab_no_pro_cask_test.rb
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet -- Casks/alt-tab-no-pro.rb; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up git identity
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit cask update
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git add Casks/alt-tab-no-pro.rb
+          git commit -m "Update alt-tab-no-pro cask"
+
+      - name: Push cask update
+        if: steps.changes.outputs.changed == 'true'
+        run: git push
