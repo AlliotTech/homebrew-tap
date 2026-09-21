@@ -1,6 +1,6 @@
 cask "alt-tab-no-pro" do
-  version "11.5.0"
-  sha256 "3b803f08159e7fa987dcfb308854d28bfd32fbf2a54b8d3265aabe4739166468"
+  version "11.7.1"
+  sha256 "cf15b8b7a86b759df84c73b5e99d3eb412b645ec677f284e8b35747f39ad7ff1"
 
   url "https://github.com/AlliotTech/alt-tab-macos/releases/download/v#{version}/AltTab-no-pro-#{version}.zip"
   name "AltTab no-pro"
