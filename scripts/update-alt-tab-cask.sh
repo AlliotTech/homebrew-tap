@@ -7,8 +7,9 @@ REPO="${REPO:-alt-tab-macos}"
 API_VERSION="${GITHUB_API_VERSION:-2026-03-10}"
 RELEASE_API_URL="${GITHUB_RELEASE_API_URL:-https://api.github.com/repos/${OWNER}/${REPO}/releases/latest}"
 CASK_PATH="${CASK_PATH:-Casks/alt-tab-no-pro.rb}"
+RUBY="${RUBY:-ruby}"
 
-for command in curl ruby
+for command in curl "${RUBY}"
 do
   if ! command -v "${command}" >/dev/null 2>&1
   then
@@ -31,7 +32,7 @@ curl \
   -o "${release_json}"
 
 parsed_release="$(
-  ruby -rjson -e '
+  "${RUBY}" -rjson -e '
     data = JSON.parse(File.read(ARGV[0]))
     tag = data.fetch("tag_name")
     version = tag.sub(/\Av/, "")
@@ -48,9 +49,9 @@ parsed_release="$(
   ' "${release_json}"
 )"
 
-version="$(printf '%s' "${parsed_release}" | ruby -e 'puts STDIN.read.split("\t", 2).fetch(0)')"
-sha="$(printf '%s' "${parsed_release}" | ruby -e 'puts STDIN.read.split("\t", 2).fetch(1)')"
+version="$(printf '%s' "${parsed_release}" | "${RUBY}" -e 'puts STDIN.read.split("\t", 2).fetch(0)')"
+sha="$(printf '%s' "${parsed_release}" | "${RUBY}" -e 'puts STDIN.read.split("\t", 2).fetch(1)')"
 
-ruby "$(dirname "$0")/lib/rewrite_single.rb" "${CASK_PATH}" "${version}" "${sha}"
+"${RUBY}" "$(dirname "$0")/lib/rewrite_single.rb" "${CASK_PATH}" "${version}" "${sha}"
 
 printf 'Updated %s to version %s\n' "${CASK_PATH}" "${version}"
