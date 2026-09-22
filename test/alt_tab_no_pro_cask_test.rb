@@ -28,6 +28,7 @@ Dir.mktmpdir("alt-tab-cask-test") do |dir|
   env = {
     "CASK_PATH"              => cask_copy_path,
     "GITHUB_RELEASE_API_URL" => "file://#{fixture_path}",
+    "RUBY"                   => RbConfig.ruby,
   }
 
   success = system(env, script_path, chdir: File.expand_path("..", __dir__))
@@ -57,6 +58,7 @@ Dir.mktmpdir("alt-tab-cask-duplicate-test") do |dir|
   env = {
     "CASK_PATH"              => cask_copy_path,
     "GITHUB_RELEASE_API_URL" => "file://#{fixture_path}",
+    "RUBY"                   => RbConfig.ruby,
   }
 
   success = system(env, script_path, chdir: File.expand_path("..", __dir__))

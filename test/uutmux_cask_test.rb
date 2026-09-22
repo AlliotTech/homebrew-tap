@@ -38,6 +38,7 @@ Dir.mktmpdir("uutmux-cask-test") do |dir|
   env = {
     "CASK_PATH"              => cask_copy_path,
     "GITHUB_RELEASE_API_URL" => "file://#{fixture_path}",
+    "RUBY"                   => RbConfig.ruby,
   }
 
   success = system(env, script_path, chdir: root)

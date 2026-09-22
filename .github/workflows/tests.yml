@@ -41,8 +41,6 @@ jobs:
 
       - run: brew test-bot --only-tap-syntax
 
-      - name: Expose Homebrew Ruby to update scripts
-        run: echo "RUBY=$(brew ruby -e 'print RbConfig.ruby')" >> "$GITHUB_ENV"
       - run: |
           cd "$(brew --repository "$GITHUB_REPOSITORY")"
           HOMEBREW_NO_AUTO_UPDATE=1 brew ruby test/apaste_cask_test.rb
