@@ -9,6 +9,10 @@ update-alt-tab:
 update-apaste:
     ./scripts/update-apaste-cask.sh
 
+update-uutmux:
+    ./scripts/update-uutmux-cask.sh
+
 test:
     ruby test/apaste_cask_test.rb
     ruby test/alt_tab_no_pro_cask_test.rb
+    ruby test/uutmux_cask_test.rb
