@@ -60,35 +60,6 @@ version="$(printf '%s' "${parsed_release}" | ruby -e 'parts = STDIN.read.split("
 arm_sha="$(printf '%s' "${parsed_release}" | ruby -e 'parts = STDIN.read.split("\t", 3); puts parts.fetch(1)')"
 intel_sha="$(printf '%s' "${parsed_release}" | ruby -e 'parts = STDIN.read.split("\t", 3); puts parts.fetch(2)')"
 
-ruby - "${CASK_PATH}" "${version}" "${arm_sha}" "${intel_sha}" <<'RUBY'
-path, version, arm_sha, intel_sha = ARGV
-
-source = File.read(path)
-
-version_sha_block = [
-  %(  version "#{version}"),
-  %(  sha256 arm:   "#{arm_sha}",),
-  %(         intel: "#{intel_sha}"),
-].join("\n")
-
-pattern = /
-  ^\s*version\s+"[^"]+"\s*\n
-  \s*sha256\s+arm:\s+"[a-f0-9]{64}",\s*\n
-  \s*intel:\s+"[a-f0-9]{64}"
-/x
-
-match_count = 0
-
-source.gsub!(pattern) do
-  match_count += 1
-  match_count == 1 ? version_sha_block : ""
-end
-
-if match_count.zero?
-  abort("failed to update version and sha256 block in #{path}")
-end
-
-File.write(path, source)
-RUBY
+ruby "$(dirname "$0")/lib/rewrite_dual_arch.rb" "${CASK_PATH}" "${version}" "${arm_sha}" "${intel_sha}"
 
 printf 'Updated %s to version %s\n' "${CASK_PATH}" "${version}"

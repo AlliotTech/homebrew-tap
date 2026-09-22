@@ -51,33 +51,6 @@ parsed_release="$(
 version="$(printf '%s' "${parsed_release}" | ruby -e 'puts STDIN.read.split("\t", 2).fetch(0)')"
 sha="$(printf '%s' "${parsed_release}" | ruby -e 'puts STDIN.read.split("\t", 2).fetch(1)')"
 
-ruby - "${CASK_PATH}" "${version}" "${sha}" <<'RUBY'
-path, version, sha = ARGV
-
-source = File.read(path)
-
-version_sha_block = [
-  %(  version "#{version}"),
-  %(  sha256 "#{sha}"),
-].join("\n")
-
-pattern = /
-  ^\s*version\s+"[^"]+"\s*\n
-  \s*sha256\s+"[a-f0-9]{64}"
-/x
-
-match_count = 0
-
-source.gsub!(pattern) do
-  match_count += 1
-  match_count == 1 ? version_sha_block : ""
-end
-
-if match_count.zero?
-  abort("failed to update version and sha256 block in #{path}")
-end
-
-File.write(path, source)
-RUBY
+ruby "$(dirname "$0")/lib/rewrite_single.rb" "${CASK_PATH}" "${version}" "${sha}"
 
 printf 'Updated %s to version %s\n' "${CASK_PATH}" "${version}"

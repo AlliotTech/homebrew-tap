@@ -64,7 +64,9 @@ Dir.mktmpdir("alt-tab-cask-duplicate-test") do |dir|
 
   updated_source = File.read(cask_copy_path)
 
-  raise "expected exactly one version declaration after update" unless updated_source.scan(/version\s+"/).length == 1
-  raise "expected exactly one sha256 declaration after update" unless updated_source.scan(/sha256\s+"/).length == 1
-  raise "expected duplicate cleanup to keep latest release version" unless updated_source.match?(/version\s+"0\.0\.6"/)
+  raise "expected exactly one version declaration after update" if updated_source.scan(/version\s+"/).length != 1
+  raise "expected exactly one sha256 declaration after update" if updated_source.scan(/sha256\s+"/).length != 1
+  unless updated_source.match?(/version\s+"0\.0\.6"/)
+    raise "expected duplicate cleanup to keep latest release version"
+  end
 end
