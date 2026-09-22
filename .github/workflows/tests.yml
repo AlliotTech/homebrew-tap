@@ -40,6 +40,9 @@ jobs:
       - run: brew test-bot --only-setup
 
       - run: brew test-bot --only-tap-syntax
+
+      - name: Expose Ruby on PATH for update scripts
+        run: dirname "$(brew ruby -e 'print RbConfig.ruby')" >> "$GITHUB_PATH"
       - run: |
           cd "$(brew --repository "$GITHUB_REPOSITORY")"
           HOMEBREW_NO_AUTO_UPDATE=1 brew ruby test/apaste_cask_test.rb
