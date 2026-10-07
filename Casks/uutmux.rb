@@ -1,9 +1,8 @@
 cask "uutmux" do
   arch arm: "arm64", intel: "x86_64"
-
-  version "0.1.0"
-  sha256 arm:   "a9af33caf8607a5325fa6d33bc3cad3ab1405ab3f8646748f3f3e72fefa58caa",
-         intel: "202acd019ba654b59c5295bfd2d3f3fcc374a1aa64f1d180ccf3876f2e81e92a"
+  version "0.1.2"
+  sha256 arm:   "e8fbce9b4fa1f8699880c66c3fd4e437dad1db5471a32ce6948b5d93f1ad2f0c",
+         intel: "e4e154c6f998518a6e2fe8ccd8d36200f17f532f22fcdd8bd46ad9fbdc5c2a70"
 
   url "https://github.com/AlliotTech/uu-tmux/releases/download/v#{version}/UUTmux-v#{version}-#{arch}.dmg"
   name "UUTmux"
