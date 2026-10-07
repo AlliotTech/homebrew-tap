@@ -13,10 +13,12 @@ version_sha_block = [
   %Q(         intel: "#{intel_sha}"),
 ].join("\n")
 
+# [ \t] 而非 \s：\s 会吞掉 version 前的空行，导致 brew style 的
+# Cask/StanzaGrouping（stanza 组之间必须空一行）失败。
 pattern = /
-  ^\s*version\s+"[^"]+"\s*\n
-  \s*sha256\s+arm:\s+"[a-f0-9]{64}",\s*\n
-  \s*intel:\s+"[a-f0-9]{64}"
+  ^[ \t]*version\s+"[^"]+"[ \t]*\n
+  [ \t]*sha256\s+arm:\s+"[a-f0-9]{64}",[ \t]*\n
+  [ \t]*intel:\s+"[a-f0-9]{64}"
 /x
 
 match_count = 0

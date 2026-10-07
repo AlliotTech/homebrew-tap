@@ -1,5 +1,6 @@
 cask "uutmux" do
   arch arm: "arm64", intel: "x86_64"
+
   version "0.1.2"
   sha256 arm:   "e8fbce9b4fa1f8699880c66c3fd4e437dad1db5471a32ce6948b5d93f1ad2f0c",
          intel: "e4e154c6f998518a6e2fe8ccd8d36200f17f532f22fcdd8bd46ad9fbdc5c2a70"
